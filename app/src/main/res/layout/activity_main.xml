@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".MainActivity"
-    android:id="@+id/">
+    android:id="@+id/layout">
 
     <TextView
         android:text="@string/header"
@@ -23,21 +23,28 @@
     <AutoCompleteTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/movie1_placeholder"
+        android:hint="@string/movie1_placeholder"
         android:id="@+id/movie1_autocomplete"
         android:layout_below="@+id/header"
         android:layout_toRightOf="@+id/loader"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="35dp"
+        android:dropDownWidth="match_parent"
+        android:imeOptions="actionDone"
+
+        />
 
     <AutoCompleteTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/movie2_placeholder"
+        android:hint="@string/movie2_placeholder"
         android:id="@+id/movie2_autocomplete"
         android:layout_marginTop="109dp"
         android:layout_below="@+id/movie1_autocomplete"
         android:layout_alignLeft="@+id/movie1_autocomplete"
-        android:layout_alignStart="@+id/movie1_autocomplete" />
+        android:layout_alignStart="@+id/movie1_autocomplete"
+        android:dropDownWidth="match_parent"
+
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -50,7 +57,7 @@
         android:layout_alignLeft="@+id/movie2_autocomplete"
         android:layout_alignStart="@+id/movie2_autocomplete"
         android:layout_marginLeft="23dp" />
-
+<!--
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -80,5 +87,5 @@
         android:layout_alignRight="@+id/imageView"
         android:layout_alignEnd="@+id/imageView"
         android:visibility="invisible" />
-
+-->
 </RelativeLayout>

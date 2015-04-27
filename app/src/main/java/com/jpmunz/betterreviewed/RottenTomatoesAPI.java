@@ -2,16 +2,27 @@ package com.jpmunz.betterreviewed;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +37,6 @@ public class RottenTomatoesAPI {
     private String API_KEY = "k4armx9qg4x5rq4xx8us8m6g";
 
     private String makeRequest(String endpoint, HashMap<String,String> queryStringParams) throws RottenTomatoesAPIException {
-
         StringBuilder sb = new StringBuilder(API_ROOT + endpoint + ".json");
         sb.append("?apikey=" + API_KEY);
 
@@ -36,22 +46,35 @@ public class RottenTomatoesAPI {
             sb.append("&" + key + "=" + queryStringParams.get(key));
         }
 
-        URI url = null;
+        URL url = null;
         try {
-            url = new URI(sb.toString());
-        } catch (URISyntaxException e) {
+            url = new URL(sb.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
             throw new RottenTomatoesAPIException();
         }
 
-        HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet(url);
-        ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
+        HttpURLConnection urlConnection = null;
         try {
-            return client.execute(request, responseHandler);
+            urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+            return readStream(in);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RottenTomatoesAPIException();
+        } finally {
+            urlConnection.disconnect();
         }
+    }
+
+    private String readStream(InputStream is) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        BufferedReader r = new BufferedReader(new InputStreamReader(is),1000);
+        for (String line = r.readLine(); line != null; line =r.readLine()){
+            sb.append(line);
+        }
+        is.close();
+        return sb.toString();
     }
 
     public ArrayList<String> autoComplete(String input) throws RottenTomatoesAPIException {
@@ -66,17 +89,24 @@ public class RottenTomatoesAPI {
         }
         queryStringParams.put("page_limit", "5");
 
+        result.add("the movie 1");
+        result.add("ff");
+        return result;
+/*
         String response =  this.makeRequest("movies", queryStringParams);
 
-        /*
-        suggest = new ArrayList<String>();
-        JSONArray jArray = new JSONArray(data);
-        for(int i=0;i<jArray.getJSONArray(1).length();i++){
-            String SuggestKey = jArray.getJSONArray(1).getString(i);
-            suggest.add(SuggestKey);
+
+        try {
+            JSONObject jsonResponse = new JSONObject(response);
+            JSONArray movies = jsonResponse.getJSONArray("movies");
+            for(int i=0; i < movies.length(); i++){
+                result.add(movies.getJSONObject(i).getString("title"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        */
 
         return result;
+        */
     }
 }
