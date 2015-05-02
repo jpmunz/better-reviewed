@@ -1,5 +1,7 @@
 package com.jpmunz.betterreviewed;
 
+import android.util.Log;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
@@ -33,8 +35,10 @@ public class RottenTomatoesAPI {
 
     public class RottenTomatoesAPIException extends Exception {}
 
-    private String API_ROOT = "http://api.rottentomatoes.com/api/public/v1.0/";
-    private String API_KEY = "k4armx9qg4x5rq4xx8us8m6g";
+    private final static String API_ROOT = "http://api.rottentomatoes.com/api/public/v1.0/";
+    private final static String API_KEY = "k4armx9qg4x5rq4xx8us8m6g";
+    private final static HashMap<String, ArrayList<String>> autoCompleteCache = new HashMap<String, ArrayList<String>>();
+
 
     private String makeRequest(String endpoint, HashMap<String,String> queryStringParams) throws RottenTomatoesAPIException {
         StringBuilder sb = new StringBuilder(API_ROOT + endpoint + ".json");
@@ -78,8 +82,13 @@ public class RottenTomatoesAPI {
     }
 
     public ArrayList<String> autoComplete(String input) throws RottenTomatoesAPIException {
-        ArrayList<String> result = new ArrayList<String>();
 
+        if (autoCompleteCache.containsKey(input)) {
+            Log.v(BetterReviewedApp.LOG_TAG, "cache hit");
+            return autoCompleteCache.get(input);
+        }
+
+        ArrayList<String> result = new ArrayList<String>();
         HashMap<String, String> queryStringParams = new HashMap<String, String>();
 
         try {
@@ -91,7 +100,8 @@ public class RottenTomatoesAPI {
 
         result.add("the movie 1");
         result.add("ff");
-        return result;
+
+
 /*
         String response =  this.makeRequest("movies", queryStringParams);
 
@@ -108,5 +118,9 @@ public class RottenTomatoesAPI {
 
         return result;
         */
+        Log.v(BetterReviewedApp.LOG_TAG, "cache miss");
+
+        autoCompleteCache.put(input, result);
+        return result;
     }
 }

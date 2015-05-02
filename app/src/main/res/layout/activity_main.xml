@@ -17,34 +17,35 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="39dp" />
+        android:layout_alignParentStart="true" />
 
-    <AutoCompleteTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/movie1_placeholder"
-        android:id="@+id/movie1_autocomplete"
-        android:layout_below="@+id/header"
-        android:layout_toRightOf="@+id/loader"
-        android:layout_marginTop="35dp"
-        android:dropDownWidth="match_parent"
-        android:imeOptions="actionDone"
+   <com.jpmunz.betterreviewed.RottenTomatoesAutoCompleteTextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:hint="@string/movie1_placeholder"
+       android:id="@+id/movie1_autoComplete"
+       android:layout_below="@+id/header"
+       android:layout_marginTop="35dp"
+       android:dropDownWidth="wrap_content"
+       android:layout_alignRight="@+id/header"
+       android:layout_alignEnd="@+id/header"
+       android:layout_alignParentLeft="true"
+       android:layout_alignParentStart="true" />
 
-        />
 
-    <AutoCompleteTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/movie2_placeholder"
-        android:id="@+id/movie2_autocomplete"
-        android:layout_marginTop="109dp"
-        android:layout_below="@+id/movie1_autocomplete"
-        android:layout_alignLeft="@+id/movie1_autocomplete"
-        android:layout_alignStart="@+id/movie1_autocomplete"
-        android:dropDownWidth="match_parent"
+ <com.jpmunz.betterreviewed.RottenTomatoesAutoCompleteTextView
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:hint="@string/movie2_placeholder"
+     android:id="@+id/movie2_autoComplete"
+     android:layout_marginTop="109dp"
+     android:layout_below="@+id/movie1_autoComplete"
+     android:layout_alignLeft="@+id/movie1_autoComplete"
+     android:layout_alignStart="@+id/movie1_autoComplete"
+     android:dropDownWidth="wrap_content"
 
-        />
+     android:layout_alignRight="@+id/movie1_autoComplete"
+     android:layout_alignEnd="@+id/movie1_autoComplete" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,40 +53,61 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/or"
         android:id="@+id/textView2"
-        android:layout_marginTop="53dp"
-        android:layout_below="@+id/movie1_autocomplete"
-        android:layout_alignLeft="@+id/movie2_autocomplete"
-        android:layout_alignStart="@+id/movie2_autocomplete"
-        android:layout_marginLeft="23dp" />
-<!--
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/loader"
-        android:src="@drawable/spinner_black_76"
-        android:layout_alignBottom="@+id/textView2"
+        android:layout_marginTop="49dp"
+        android:layout_below="@+id/movie1_autoComplete"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:visibility="invisible" />
+        android:layout_alignParentStart="true" />
 
-    <ImageView
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/movie1_better"
-        android:src="@drawable/btn_check_buttonless_on"
-        android:layout_above="@+id/movie2_autocomplete"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
-        android:visibility="invisible" />
+        android:id="@+id/movie1_autoComplete_progressBar"
+        android:layout_alignBottom="@+id/movie1_autoComplete"
+        android:layout_alignRight="@+id/movie1_autoComplete"
+        android:layout_alignEnd="@+id/movie1_autoComplete"
+        android:indeterminate="false"
+        android:visibility="gone" />
 
-    <ImageView
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/movie2_better"
-        android:src="@drawable/btn_check_buttonless_on"
-        android:layout_alignBottom="@+id/movie2_autocomplete"
-        android:layout_alignRight="@+id/imageView"
-        android:layout_alignEnd="@+id/imageView"
-        android:visibility="invisible" />
--->
+        android:id="@+id/movie2_autoComplete_progressBar"
+        android:indeterminate="false"
+        android:layout_alignBottom="@+id/movie2_autoComplete"
+        android:layout_alignRight="@+id/movie2_autoComplete"
+        android:layout_alignEnd="@+id/movie2_autoComplete"
+        android:visibility="gone" />
+
+
+    <!--
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loader"
+            android:src="@drawable/spinner_black_76"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie1_better"
+            android:src="@drawable/btn_check_buttonless_on"
+            android:layout_above="@+id/movie2_autocomplete"
+            android:layout_alignRight="@+id/imageView"
+            android:layout_alignEnd="@+id/imageView"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie2_better"
+            android:src="@drawable/btn_check_buttonless_on"
+            android:layout_alignBottom="@+id/movie2_autocomplete"
+            android:layout_alignRight="@+id/imageView"
+            android:layout_alignEnd="@+id/imageView"
+            android:visibility="invisible" />
+    -->
 </RelativeLayout>

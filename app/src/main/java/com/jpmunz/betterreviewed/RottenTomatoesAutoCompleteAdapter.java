@@ -1,6 +1,7 @@
 package com.jpmunz.betterreviewed;
 
 import android.content.Context;
+import android.os.SystemClock;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;

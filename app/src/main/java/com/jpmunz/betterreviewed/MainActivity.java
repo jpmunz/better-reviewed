@@ -29,46 +29,39 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
-    private static final String TAG = "MainActivity";
+
+    private static final int AUTO_COMPLETE_THRESHOLD = 5;
 
     /*
     TODO
 
+        - setting menu should allow configuration of user/critic review weighting
 
-        http://makovkastar.github.io/blog/2014/04/12/android-autocompletetextview-with-suggestions-from-a-web-service/
-        - loading indicator in autocomplete while retrieving
-        - add a delayed autocomplete to buffer network calls
-        - set threshold for autocomplete higher (5)
-
-        
         -implement compareRatings
             - show a loading indicator on the rhs
             - show a warning indicator if the call failed
             - show a checkmark next to the higher rated movie
             - activate a ratings search for the 2 given results
 
-        - setting menu should allow configuration of user/critic review weighting
-
-
         - Bugs
-            - autocomplete suggestions should be as long as the longest result
-            - should be able to click anywhere on the suggestion
             - 2 results for the notebook?
+
+         http://makovkastar.github.io/blog/2014/04/12/android-autocompletetextview-with-suggestions-from-a-web-service/
      */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupMovieInput(R.id.movie1_autocomplete, R.id.movie2_autocomplete);
-        setupMovieInput(R.id.movie2_autocomplete, R.id.movie1_autocomplete);
+        setupMovieInput(R.id.movie1_autoComplete, R.id.movie1_autoComplete_progressBar, R.id.movie2_autoComplete);
+        setupMovieInput(R.id.movie2_autoComplete, R.id.movie2_autoComplete_progressBar, R.id.movie1_autoComplete);
     }
 
-    protected void setupMovieInput(int inputId, final int otherInputId) {
-        AutoCompleteTextView movie1AutoComplete = (AutoCompleteTextView) findViewById(inputId);
-        movie1AutoComplete.setAdapter(new RottenTomatoesAutoCompleteAdapter(this, R.layout.autocomplete_list_item));
+    protected void setupMovieInput(int inputId, int progressBarId, final int otherInputId) {
+        RottenTomatoesAutoCompleteTextView movieAutoComplete = (RottenTomatoesAutoCompleteTextView) findViewById(inputId);
+        movieAutoComplete.setAdapter(new RottenTomatoesAutoCompleteAdapter(this, R.layout.autocomplete_list_item));
 
-        movie1AutoComplete.setOnEditorActionListener(new AutoCompleteTextView.OnEditorActionListener() {
+        movieAutoComplete.setOnEditorActionListener(new AutoCompleteTextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_NULL
@@ -81,12 +74,16 @@ public class MainActivity extends Activity {
             }
         });
 
-        movie1AutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        movieAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 nextMovieInput(otherInputId);
             }
         });
+
+        movieAutoComplete.setThreshold(AUTO_COMPLETE_THRESHOLD);
+        movieAutoComplete.setLoadingIndicator(
+                (android.widget.ProgressBar) findViewById(progressBarId));
     }
 
     protected void nextMovieInput(int inputId) {
@@ -100,10 +97,10 @@ public class MainActivity extends Activity {
     }
 
     protected void compareRatings() {
-        AutoCompleteTextView movie1 = (AutoCompleteTextView) findViewById(R.id.movie1_autocomplete);
-        AutoCompleteTextView movie2 = (AutoCompleteTextView) findViewById(R.id.movie2_autocomplete);
+        AutoCompleteTextView movie1 = (AutoCompleteTextView) findViewById(R.id.movie1_autoComplete);
+        AutoCompleteTextView movie2 = (AutoCompleteTextView) findViewById(R.id.movie2_autoComplete);
 
-        Log.v(TAG, "comparing " +movie1.getText() + " and " + movie2.getText());
+        Log.v(BetterReviewedApp.LOG_TAG, "comparing " +movie1.getText() + " and " + movie2.getText());
     }
 
     @Override
