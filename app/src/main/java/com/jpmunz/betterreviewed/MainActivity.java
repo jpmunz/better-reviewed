@@ -2,8 +2,11 @@ package com.jpmunz.betterreviewed;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -29,14 +32,11 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
-
     private static final int AUTO_COMPLETE_THRESHOLD = 5;
+    private SharedPreferences settings;
 
     /*
     TODO
-
-        - setting menu should allow configuration of user/critic review weighting
-
         -implement compareRatings
             - show a loading indicator on the rhs
             - show a warning indicator if the call failed
@@ -45,16 +45,20 @@ public class MainActivity extends Activity {
 
         - Bugs
             - 2 results for the notebook?
-
-         http://makovkastar.github.io/blog/2014/04/12/android-autocompletetextview-with-suggestions-from-a-web-service/
      */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        settings = PreferenceManager.getDefaultSharedPreferences(this);
+
         setContentView(R.layout.activity_main);
         setupMovieInput(R.id.movie1_autoComplete, R.id.movie1_autoComplete_progressBar, R.id.movie2_autoComplete);
         setupMovieInput(R.id.movie2_autoComplete, R.id.movie2_autoComplete_progressBar, R.id.movie1_autoComplete);
+
+        compareRatings();
     }
 
     protected void setupMovieInput(int inputId, int progressBarId, final int otherInputId) {
@@ -97,10 +101,16 @@ public class MainActivity extends Activity {
     }
 
     protected void compareRatings() {
+        int criticWeight = Integer.parseInt(settings.getString("pref_critic_weight", "50"));
+        int userWeight = Integer.parseInt(settings.getString("pref_user_weight", "50"));
+
         AutoCompleteTextView movie1 = (AutoCompleteTextView) findViewById(R.id.movie1_autoComplete);
         AutoCompleteTextView movie2 = (AutoCompleteTextView) findViewById(R.id.movie2_autoComplete);
 
         Log.v(BetterReviewedApp.LOG_TAG, "comparing " +movie1.getText() + " and " + movie2.getText());
+        Log.v(BetterReviewedApp.LOG_TAG, "criticWeight " + criticWeight);
+        Log.v(BetterReviewedApp.LOG_TAG, "userWeight " + userWeight);
+
     }
 
     @Override
@@ -117,6 +127,8 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.jpmunz.betterreviewed">
+
+    <com.jpmunz.betterreviewed.SeekBarPreference
+        android:key="pref_critic_weight"
+        android:title="@string/pref_critic_weight"
+        android:summary="@string/pref_critic_weight_summary"
+        android:defaultValue="50"
+        android:max="100"
+        custom:min="0"
+        custom:unitsLeft=""
+        custom:unitsRight="%"
+        custom:connectedSeekBarKey="pref_user_weight"
+        />
+
+    <com.jpmunz.betterreviewed.SeekBarPreference
+        android:key="pref_user_weight"
+        android:title="@string/pref_user_weight"
+        android:summary="@string/pref_user_weight_summary"
+        android:defaultValue="50"
+        android:max="100"
+        custom:min="0"
+        custom:unitsLeft=""
+        custom:unitsRight="%"
+        custom:connectedSeekBarKey="pref_critic_weight"
+        />
+
+</PreferenceScreen>

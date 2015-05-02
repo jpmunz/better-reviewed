@@ -8,4 +8,11 @@
     <string name="action_settings">Settings</string>
     <string name="or">OR</string>
 
+
+    <string name="pref_critic_weight">Critic rating weight</string>
+    <string name="pref_critic_weight_summary">The amount that the critic rating factors into the overall rating</string>
+    <string name="pref_user_weight">User rating weight</string>
+    <string name="pref_user_weight_summary">The amount that the user rating factors into the overall rating</string>
+
+
 </resources>
