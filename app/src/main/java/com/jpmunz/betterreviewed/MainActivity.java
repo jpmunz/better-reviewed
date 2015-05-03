@@ -2,6 +2,7 @@ package com.jpmunz.betterreviewed;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
-    private static final int AUTO_COMPLETE_THRESHOLD = 5;
+    private static final int AUTO_COMPLETE_THRESHOLD = 1;
     private SharedPreferences settings;
 
     private RottenTomatoesAPI api;
@@ -48,6 +50,7 @@ public class MainActivity extends Activity {
     private ImageView movie1Success;
     private ImageView movie2Success;
     private ProgressBar compareRatingsProgress;
+    private CompareRatings mCompareRatings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,25 @@ public class MainActivity extends Activity {
         movie1Success = (ImageView) findViewById(R.id.movie1_success);
         movie2Success = (ImageView) findViewById(R.id.movie2_success);
 
-        new CompareRatings().execute(movie1.getText().toString(), movie2.getText().toString());
+        Button reset = (Button) findViewById(R.id.reset);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                compareRatingsProgress.setVisibility(View.GONE);
+                movie1Success.setVisibility(View.GONE);
+                movie2Success.setVisibility(View.GONE);
+                movie1.clearFocus();
+                movie2.clearFocus();
+                movie1.setEnabled(true);
+                movie2.setEnabled(true);
+                movie1.setText("");
+                movie2.setText("");
+
+                if (mCompareRatings != null) {
+                    mCompareRatings.cancel(true);
+                }
+            }
+        });
     }
 
     protected void setupMovieInput(int inputId, int progressBarId, final int otherInputId) {
@@ -131,7 +152,8 @@ public class MainActivity extends Activity {
         if (movieAutoComplete.getText().length() == 0) {
             movieAutoComplete.requestFocus();
         } else {
-            new CompareRatings().execute(movie1.getText().toString(), movie2.getText().toString());
+            mCompareRatings = new CompareRatings();
+            mCompareRatings.execute(movie1.getText().toString(), movie2.getText().toString());
         }
     }
 

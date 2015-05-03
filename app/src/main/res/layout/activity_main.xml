@@ -107,4 +107,15 @@
         android:layout_toRightOf="@+id/movie2_autoComplete"
         android:visibility="gone" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset"
+        android:id="@+id/reset"
+        android:layout_below="@+id/movie2_autoComplete"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="69dp" />
+
 </RelativeLayout>
