@@ -10,11 +10,11 @@ import java.util.ArrayList;
 
 public class RottenTomatoesAutoCompleteAdapter extends ArrayAdapter<String> implements Filterable {
     private ArrayList<String> resultList;
-    private RottenTomatoesAPI api;
+    private RottenTomatoesAPI mApi;
 
-    public RottenTomatoesAutoCompleteAdapter(Context context, int textViewResourceId) {
+    public RottenTomatoesAutoCompleteAdapter(Context context, int textViewResourceId, RottenTomatoesAPI api) {
         super(context, textViewResourceId);
-        api = new RottenTomatoesAPI();
+        mApi = api;
     }
 
     @Override
@@ -27,6 +27,10 @@ public class RottenTomatoesAutoCompleteAdapter extends ArrayAdapter<String> impl
         return resultList.get(index);
     }
 
+    public boolean hasValue(String value) {
+        return resultList.contains(value);
+    }
+
     @Override
     public Filter getFilter() {
         Filter filter = new Filter() {
@@ -35,7 +39,7 @@ public class RottenTomatoesAutoCompleteAdapter extends ArrayAdapter<String> impl
                 Filter.FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
                     try {
-                        resultList = api.autoComplete(constraint.toString());
+                        resultList = mApi.autoComplete(constraint.toString());
                     } catch (RottenTomatoesAPI.RottenTomatoesAPIException e) {
                         e.printStackTrace();
                     }

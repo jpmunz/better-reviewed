@@ -22,7 +22,6 @@
    <com.jpmunz.betterreviewed.RottenTomatoesAutoCompleteTextView
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:text="The first movie"
        android:hint="@string/movie1_placeholder"
        android:id="@+id/movie1_autoComplete"
        android:layout_below="@+id/header"
@@ -37,7 +36,6 @@
  <com.jpmunz.betterreviewed.RottenTomatoesAutoCompleteTextView
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"
-     android:text="The second movie"
      android:hint="@string/movie2_placeholder"
      android:id="@+id/movie2_autoComplete"
      android:layout_marginTop="109dp"
@@ -80,36 +78,33 @@
         android:layout_alignEnd="@+id/movie2_autoComplete"
         android:visibility="gone" />
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/compare_ratings_progress"
+        android:layout_below="@+id/movie1_autoComplete"
+        android:layout_toRightOf="@+id/movie2_autoComplete"
+        android:layout_alignBottom="@+id/movie2_autoComplete"
+        android:visibility="gone" />
 
-    <!--
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/loader"
-            android:src="@drawable/spinner_black_76"
-            android:layout_alignBottom="@+id/textView2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:visibility="invisible" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/movie1_success"
+        android:src="@drawable/ic_checkmark"
+        android:layout_alignTop="@+id/movie1_autoComplete"
+        android:layout_toRightOf="@+id/movie1_autoComplete"
+        android:visibility="gone" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/movie1_better"
-            android:src="@drawable/btn_check_buttonless_on"
-            android:layout_above="@+id/movie2_autocomplete"
-            android:layout_alignRight="@+id/imageView"
-            android:layout_alignEnd="@+id/imageView"
-            android:visibility="invisible" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/movie2_better"
-            android:src="@drawable/btn_check_buttonless_on"
-            android:layout_alignBottom="@+id/movie2_autocomplete"
-            android:layout_alignRight="@+id/imageView"
-            android:layout_alignEnd="@+id/imageView"
-            android:visibility="invisible" />
-    -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/movie2_success"
+        android:src="@drawable/ic_checkmark"
+        android:layout_alignBottom="@+id/movie2_autoComplete"
+        android:layout_toRightOf="@+id/movie2_autoComplete"
+        android:visibility="gone" />
+
 </RelativeLayout>
